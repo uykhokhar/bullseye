@@ -10,17 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    /// value of slider
     var currentValue = 0
+    
+    /// randomly generated value; target value
     var targetValue = 0
+    
+    /// total score
     var score = 0
+    
+    /// round number
     var round = 0
     
-    
+    // MARK: IBOUTLETS
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         startNewGame()
@@ -32,6 +40,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    // MARK: IBACTIONS
+    
+    /**
+     Display alert showing points gained and description of how close user was
+    */
     @IBAction func showAlert(){
         
         let difference = abs(targetValue - currentValue)
@@ -68,18 +82,29 @@ class ViewController: UIViewController {
         
         present(alert, animated: true, completion: nil)
         
-        
     }
     
+    /**
+     Get the slider value after slider moved. (IBaction connected to sliderMoved)
+     
+     - parameter: UISlider from main view
+    */
     @IBAction func sliderMoved(_ slider: UISlider) {
         currentValue = lroundf(slider.value)
     }
+
     
+    /**
+     Start over button starts new game and updates labels.
+     */
     @IBAction func startOver(){
         startNewGame()
         updateLabels()
     }
     
+    /**
+     Start new round by generating new target value, resetting slider to middle, incrementing round number.
+    */
     func startNewRound() {
         targetValue = 1 + Int(arc4random_uniform(100))
         currentValue = 50
@@ -87,6 +112,11 @@ class ViewController: UIViewController {
         round = round + 1
     }
     
+    // MARK: METHODS
+    
+    /**
+    Start new game by setting score to 0, round to 0 and starting a new round.
+    */
     func startNewGame() {
         score = 0
         round = 0
